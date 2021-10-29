@@ -12,6 +12,31 @@ bool Game::Init(const char *title, int xpos, int ypos, int width, int height, in
       if (m_pRenderer != 0)
       {
         SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+
+        SDL_Surface* pTempSurface = SDL_LoadBMP("Assets/rider.bmp");
+        if(pTempSurface != 0)
+        {
+          m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pTempSurface);
+          SDL_FreeSurface(pTempSurface);
+
+          if(m_pTexture != 0)
+          {
+            SDL_QueryTexture(m_pTexture, NULL, NULL, &m_srcRect.w, &m_srcRect.h);
+
+            m_desRect.x = m_srcRect.x = 0;
+            m_desRect.y = m_srcRect.y = 0;
+            m_desRect.w = m_srcRect.w;
+            m_desRect.h = m_srcRect.h;
+          }
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          return false;
+        }
       }
       else
       {
@@ -20,7 +45,7 @@ bool Game::Init(const char *title, int xpos, int ypos, int width, int height, in
     }
     else
     {
-      return false; // 윈도우 생설 실패 l
+      return false; // 윈도우 생성 실패 l
     }
   }
   else
@@ -56,6 +81,7 @@ void Game::Update()
 void Game::Render()
 {
   SDL_RenderClear(m_pRenderer);
+  SDL_RenderCopy(m_pRenderer, m_pTexture, &m_srcRect, &m_desRect);
   SDL_RenderPresent(m_pRenderer);
 }
 
