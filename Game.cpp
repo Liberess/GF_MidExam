@@ -13,28 +13,8 @@ bool Game::Init(const char *title, int xpos, int ypos, int width, int height, in
       {
         SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 
-        SDL_Surface* pTempSurface = IMG_Load("Assets/animate-alpha.png");
-        if(pTempSurface != 0)
-        {
-          m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pTempSurface);
-          SDL_FreeSurface(pTempSurface);
-
-          if(m_pTexture != 0)
-          {
-            m_desRect.x = m_srcRect.x = 0;
-            m_desRect.y = m_srcRect.y = 0;
-            m_desRect.w = m_srcRect.w = 128;
-            m_desRect.h = m_srcRect.h = 82;
-          }
-          else
-          {
-            return false;
-          }
-        }
-        else
-        {
+        if(!m_textureManager.Load("Assets/animate-alpha.png", "animate", m_pRenderer))
           return false;
-        }
       }
       else
       {
@@ -73,13 +53,14 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-  m_srcRect.x = 128 * ((SDL_GetTicks() / 100) % 6);
+  m_currentFrame = (SDL_GetTicks() / 100) % 6;
 }
 
 void Game::Render()
 {
   SDL_RenderClear(m_pRenderer);
-  SDL_RenderCopy(m_pRenderer, m_pTexture, &m_srcRect, &m_desRect);
+  m_textureManager.Draw("animate", 0, 0, 128, 82, m_pRenderer);
+  m_textureManager.DrawFrame("animate", 100, 100, 128, 82, 0, m_currentFrame, m_pRenderer);
   SDL_RenderPresent(m_pRenderer);
 }
 
