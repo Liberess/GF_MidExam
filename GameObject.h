@@ -2,22 +2,18 @@
 #define __GameObject_H__
 
 #include "SDL.h"
-#include "TextureManager.h"
+#include "LoaderParams.h"
 #include <iostream>
 
 class GameObject
 {
 public:
-  virtual void Load(int x, int y, int width, int height, std::string textureID);
-  virtual void Draw(SDL_Renderer* pRenderer);
-  virtual void Update();
-  virtual void Clean() {}
+  virtual void Draw() = 0;
+  virtual void Update() = 0;
+  virtual void Clean() = 0;
 
 protected:
-  int m_x, m_y;
-  int m_width, m_height;
-  std::string m_textureID;
-  int m_currentFrame, m_currentRow;
+  GameObject(const LoaderParams* pParams) {}
 };
 
 #endif
