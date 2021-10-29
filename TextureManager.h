@@ -28,4 +28,5 @@ private:
 };
 
 typedef TextureManager TheTextureManager;
+
 #endif

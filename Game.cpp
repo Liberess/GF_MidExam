@@ -13,8 +13,15 @@ bool Game::Init(const char *title, int xpos, int ypos, int width, int height, in
       {
         SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 
-        if(!TheTextureManager::Instance()->Load("Assets/animate-alpha.png", "animate", m_pRenderer))
+        if(TheTextureManager::Instance()->Load("Assets/animate-alpha.png", "animate", m_pRenderer))
+        {
+          m_go.Load(100, 100, 128, 82, "animate");
+          m_player.Load(100, 100, 128, 82, "animate");
+        }
+        else
+        {
           return false;
+        }
       }
       else
       {
@@ -53,14 +60,15 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-  m_currentFrame = (SDL_GetTicks() / 100) % 6;
+  m_go.Update();
+  m_player.Update();
 }
 
 void Game::Render()
 {
   SDL_RenderClear(m_pRenderer);
-  TheTextureManager::Instance()->Draw("animate", 0, 0, 128, 82, m_pRenderer);
-  TheTextureManager::Instance()->DrawFrame("animate", 100, 100, 128, 82, 0, m_currentFrame, m_pRenderer);
+  m_go.Draw(m_pRenderer);
+  m_player.Draw(m_pRenderer);
   SDL_RenderPresent(m_pRenderer);
 }
 
