@@ -27,6 +27,9 @@ bool Game::Init(const char *title, int xpos, int ypos, int width, int height, in
             m_desRect.y = m_srcRect.y = 0;
             m_desRect.w = m_srcRect.w;
             m_desRect.h = m_srcRect.h;
+
+            std::cout << "rider w : " << m_srcRect.w << std::endl;
+            std::cout << "rider h : " << m_srcRect.h << std::endl;
           }
           else
           {
