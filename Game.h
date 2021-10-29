@@ -2,9 +2,9 @@
 #define __Game_H__
 
 #include "SDL.h"
-#include "Player.h"
 #include "GameObject.h"
 #include "TextureManager.h"
+#include <vector>
 #include <iostream>
 
 class Game
@@ -24,8 +24,7 @@ private:
   SDL_Renderer* m_pRenderer;
   bool m_bRunning;
   int m_currentFrame;
-  GameObject m_go;
-  Player m_player;
+  std::vector<GameObject*> m_gameObjects;
 };
 
 #endif
